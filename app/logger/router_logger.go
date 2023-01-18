@@ -36,13 +36,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 			if err := recover(); err != nil {
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if stack {
-					logger.Error("recovery from panic",
+					logger.Error("[Recovery from panic]:",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())),
 					)
 				} else {
-					logger.Error("recovery from panic",
+					logger.Error("[Recovery from panic]:",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)

@@ -10,7 +10,7 @@ import (
 
 func main() {
 	if err := settings.Init(); err != nil {
-		fmt.Printf("init settings failed:%s \n", err)
+		fmt.Printf("[Init settings failed]:%s \n", err)
 		return
 	}
 
@@ -18,7 +18,7 @@ func main() {
 		fmt.Printf("init logger failed:%s \n", err)
 		return
 	}
-	zap.L().Debug("logger init success!")
+	zap.L().Debug("[Logger init]: success!")
 
 	server.Run()
 }

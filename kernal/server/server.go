@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -28,24 +27,23 @@ func Run() {
 		Handler: r,
 	}
 
-	zap.L().Debug("server listen", zap.String("port", strconv.Itoa(settings.Config.Port)))
+	zap.L().Debug("[Server listen]:", zap.String("port", strconv.Itoa(settings.Config.Port)))
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			zap.L().Error("listen: %s\n", zap.Error(err))
+			zap.L().Error("[Listen failed]:", zap.Error(err))
 		}
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	zap.L().Info("Shutdown server")
+	zap.L().Info("[Shutdown server]: prepare shutdown server")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatal("Server Shutdown: ", err)
-		zap.L().Error("Server Shutdown: ", zap.Error(err))
+		zap.L().Error("[Server error]: ", zap.Error(err))
 	}
-	zap.L().Info("Server exiting")
+	zap.L().Info("[Server exiting]: server already shutdown")
 }
