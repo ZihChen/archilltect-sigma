@@ -1,0 +1,8 @@
+name: "archilltect-sigma"
+port: 8084
+line:
+  channel_token:
+  channel_secret:
+gpt:
+  base_url:
+  key: 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
