@@ -5,6 +5,7 @@ import (
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"os"
 )
 
 var logger *zap.Logger
@@ -17,7 +18,11 @@ func Init() (err error) {
 	if err != nil {
 		return
 	}
-	core := zapcore.NewCore(encoder, writer, l)
+	core := zapcore.NewTee(
+		zapcore.NewCore(encoder, writer, l),
+		zapcore.NewCore(zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
+			zapcore.Lock(os.Stdout), zapcore.DebugLevel),
+	)
 	logger = zap.New(core, zap.AddCaller())
 	zap.ReplaceGlobals(logger)
 	return
