@@ -1,5 +1,12 @@
 name: "archilltect-sigma"
 port: 8084
+log:
+  level: "debug"
+  filename: "log/archilltect-sigma.log"
+  max_size: 50
+  max_age: 30
+  max_backups: 7
+
 line:
   channel_token:
   channel_secret:

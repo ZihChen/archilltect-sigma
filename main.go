@@ -1,8 +1,10 @@
 package main
 
 import (
+	"archilltect-sigma/app/logger"
 	"archilltect-sigma/app/settings"
 	"fmt"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -10,4 +12,11 @@ func main() {
 		fmt.Printf("init settings failed:%s \n", err)
 		return
 	}
+
+	if err := logger.Init(); err != nil {
+		fmt.Printf("init logger failed:%s \n", err)
+		return
+	}
+	zap.L().Debug("logger init success!")
+
 }
