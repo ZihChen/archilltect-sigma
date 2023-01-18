@@ -3,6 +3,7 @@ package main
 import (
 	"archilltect-sigma/app/logger"
 	"archilltect-sigma/app/settings"
+	"archilltect-sigma/kernal/server"
 	"fmt"
 	"go.uber.org/zap"
 )
@@ -19,4 +20,5 @@ func main() {
 	}
 	zap.L().Debug("logger init success!")
 
+	server.Run()
 }
