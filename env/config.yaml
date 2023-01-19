@@ -11,5 +11,5 @@ line:
   channel_token:
   channel_secret:
 gpt:
-  base_url:
-  key: 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
+  base_url: "https://api.openai.com/v1"
+  key: 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

@@ -12,7 +12,4 @@ func Setup(r *gin.Engine) {
 	}
 
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
-	r.GET("/test", func(c *gin.Context) {
-		c.JSON(200, "hello world")
-	})
 }
