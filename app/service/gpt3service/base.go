@@ -31,7 +31,7 @@ var once sync.Once
 func New(options ...Option) Interface {
 	ser := &service{
 		httpClient: &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout: 60 * time.Second,
 		},
 		apiKey:  settings.Config.GptConfig.Key,
 		baseURL: settings.Config.GptConfig.BaseUrl,
@@ -70,12 +70,10 @@ func (s *service) Completion(ctx context.Context, request structs.CompletionRequ
 
 	defer resp.Body.Close()
 
-	output := new(structs.CompletionResponse)
-	if err = json.NewDecoder(resp.Body).Decode(output); err != nil {
+	if err = json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		zap.L().Error("[Body decode error]:", zap.Any("error", err))
 		return
 	}
-
 	return
 }
 
