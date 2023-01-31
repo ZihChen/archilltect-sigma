@@ -3,6 +3,7 @@ package main
 import (
 	"archilltect-sigma/app/logger"
 	"archilltect-sigma/app/settings"
+	_ "archilltect-sigma/docs"
 	"archilltect-sigma/kernal/server"
 	"fmt"
 	"go.uber.org/zap"
