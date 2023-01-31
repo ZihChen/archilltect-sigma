@@ -5,12 +5,16 @@ import (
 	"archilltect-sigma/app/settings"
 	_ "archilltect-sigma/docs"
 	"archilltect-sigma/kernal/server"
+	"embed"
 	"fmt"
 	"go.uber.org/zap"
 )
 
+//go:embed env/*
+var f embed.FS
+
 func main() {
-	if err := settings.Init(); err != nil {
+	if err := settings.Init(f); err != nil {
 		fmt.Printf("[Init settings failed]:%s \n", err)
 		return
 	}

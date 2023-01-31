@@ -2,32 +2,33 @@ package settings
 
 import (
 	"archilltect-sigma/app/structs"
+	"embed"
 	"fmt"
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
+	"gopkg.in/yaml.v2"
+	"os"
 )
 
 var Config *structs.Config
 
-func Init() error {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./env")
-	err := viper.ReadInConfig()
-	if err != nil {
-		fmt.Println("viper read config failed")
-		return err
+func Init(f embed.FS) error {
+	env := os.Getenv("ENV")
+
+	pathList := []string{
+		"env/" + env + "/config.yaml",
 	}
 
-	if err = viper.Unmarshal(&Config); err != nil {
-		fmt.Println("viper unmarshal err")
-		return err
+	for k := range pathList {
+		configFile, err := f.ReadFile(pathList[k])
+		if err != nil {
+			fmt.Println(fmt.Sprintf("Read File Error: %v", err.Error()))
+			return err
+		}
+
+		if err = yaml.Unmarshal(configFile, &Config); err != nil {
+			fmt.Println(fmt.Sprintf("Yaml Unmarshal Error: %v", err.Error()))
+			return err
+		}
 	}
 
-	viper.WatchConfig()
-	viper.OnConfigChange(func(in fsnotify.Event) {
-		fmt.Println("config file has been modified")
-	})
-
-	return err
+	return nil
 }
