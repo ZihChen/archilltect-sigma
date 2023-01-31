@@ -1,0 +1,10 @@
+name: "archilltect-sigma"
+port: 8080
+log:
+  level: "debug"
+  filename: "log/archilltect-sigma.log"
+  max_size: 50
+  max_age: 30
+  max_backups: 7
+gpt:
+  base_url: "https://api.openai.com/v1"

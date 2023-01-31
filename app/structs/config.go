@@ -1,20 +1,20 @@
 package structs
 
 type Config struct {
-	Name      string     `mapstructure:"name"`
-	Port      int        `mapstructure:"port"`
-	LogConfig *LogConfig `mapstructure:"log"`
-	GptConfig *GptConfig `mapstructure:"gpt"`
+	Name      string    `yaml:"name"`
+	Port      int       `yaml:"port"`
+	LogConfig LogConfig `yaml:"log"`
+	GptConfig GptConfig `yaml:"gpt"`
 }
 
 type LogConfig struct {
-	Level      string `mapstructure:"level"`
-	FileName   string `mapstructure:"filename"`
-	MaxSize    int    `mapstructure:"max_size"`
-	MaxAge     int    `mapstructure:"max_age"`
-	MaxBackups int    `mapstructure:"max_backups"`
+	Level      string `yaml:"level"`
+	FileName   string `yaml:"filename"`
+	MaxSize    int    `yaml:"max_size"`
+	MaxAge     int    `yaml:"max_age"`
+	MaxBackups int    `yaml:"max_backups"`
 }
 
 type GptConfig struct {
-	BaseUrl string `mapstructure:"base_url"`
+	BaseUrl string `yaml:"base_url"`
 }
