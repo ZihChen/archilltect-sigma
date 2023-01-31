@@ -10,6 +10,7 @@ import (
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 )
@@ -33,7 +34,7 @@ func New(options ...Option) Interface {
 		httpClient: &http.Client{
 			Timeout: 60 * time.Second,
 		},
-		apiKey:  settings.Config.GptConfig.Key,
+		apiKey:  os.Getenv("GPT_KEY"),
 		baseURL: settings.Config.GptConfig.BaseUrl,
 		model:   DavinciModel,
 	}

@@ -1,10 +1,10 @@
 package linebotservice
 
 import (
-	"archilltect-sigma/app/settings"
 	"github.com/line/line-bot-sdk-go/v7/linebot"
 	"go.uber.org/zap"
 	"net/http"
+	"os"
 	"sync"
 )
 
@@ -29,8 +29,8 @@ func New() Interface {
 func (s *service) GetClient() *linebot.Client {
 	var err error
 	bot, err = linebot.New(
-		settings.Config.LineConfig.ChannelSecret,
-		settings.Config.LineConfig.ChannelToken,
+		os.Getenv("CHANNEL_SECRET"),
+		os.Getenv("CHANNEL_TOKEN"),
 		linebot.WithHTTPClient(&http.Client{}))
 	if err != nil {
 		zap.L().Error("[LINE-bot get client error]:", zap.Any("error", err))
