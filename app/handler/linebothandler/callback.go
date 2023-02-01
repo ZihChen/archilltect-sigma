@@ -22,7 +22,7 @@ func (h *Handler) Callback(c *gin.Context) {
 		case linebot.EventTypeMessage:
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
-				h.pushMessageToUser(userID, linebot.NewTextMessage("🤖：執行中，請稍後..."))
+				h.pushMessageToUser(userID, linebot.NewTextMessage("🤖：執行中，請稍候..."))
 				var res structs.CompletionResponse
 				res, err = h.Gpt3Service.Completion(c, structs.CompletionRequest{
 					Prompt:    message.Text,
@@ -30,11 +30,14 @@ func (h *Handler) Callback(c *gin.Context) {
 					N:         1,
 				})
 				if err != nil {
-					zap.L().Error("[Gpt3 completion error]", zap.Any("error", err.Error()))
+					zap.L().Error("[Gpt3 completion error]:", zap.Any("error", err.Error()))
 					return
 				}
 
 				h.pushMessageToUser(userID, linebot.NewTextMessage(strings.TrimLeft(res.Choices[0].Text, "\n\n")))
+				zap.L().Debug("[Model respond]:",
+					zap.String("prompt", message.Text),
+					zap.String("resp", res.Choices[0].Text))
 			}
 		}
 	}
@@ -43,6 +46,6 @@ func (h *Handler) Callback(c *gin.Context) {
 func (h *Handler) pushMessageToUser(id string, messages ...linebot.SendingMessage) {
 	_, err := bot.PushMessage(id, messages...).Do()
 	if err != nil {
-		zap.L().Error("[LINE-bot push message error:]", zap.Any("error", err.Error()))
+		zap.L().Error("[LINE-bot push message error]:", zap.Any("error", err.Error()))
 	}
 }
