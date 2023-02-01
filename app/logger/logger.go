@@ -11,15 +11,15 @@ import (
 var logger *zap.Logger
 
 func Init() (err error) {
-	writer := getLogWriter()
-	encoder := getEncoder()
+	//writer := getLogWriter()
+	//encoder := getEncoder()
 	var l = new(zapcore.Level)
 	err = l.UnmarshalText([]byte(settings.Config.LogConfig.Level))
 	if err != nil {
 		return
 	}
 	core := zapcore.NewTee(
-		zapcore.NewCore(encoder, writer, l),
+		//zapcore.NewCore(encoder, writer, l),
 		zapcore.NewCore(zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
 			zapcore.Lock(os.Stdout), zapcore.DebugLevel),
 	)
